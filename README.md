@@ -1,4 +1,4 @@
-# ComputacaoG rafica
+# Computacao Grafica
 Este repositório irá conter todas as atividades desenvolvidas 
 na cadeira de Computação Gráfica (CG) 
 da Universidade Católica de Pernambuco(UNICAP)
