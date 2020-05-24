@@ -10,7 +10,7 @@ class Canvas(QtWidgets.QLabel):
         self.setPixmap(pixmap)
 
         self.last_x, self.last_y = None, None
-        self.pen_color = QtGui.QColor('#000000')        
+        self.pen_color = QtGui.QColor('#FFFFFF')        
 
     def set_pen_color(self, c):
         self.pen_color = QtGui.QColor(c)
