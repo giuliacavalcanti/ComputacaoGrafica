@@ -51,8 +51,8 @@ void MainBoard::drawBoard(int i) {
     this->lifeLabel = new QLabel();
     this->bonusAteLabel->setPixmap(QPixmap(":/images/images/Bonus.png"));
     this->ateLabel->setPixmap(QPixmap(":/images/images/Food.jpg"));
-    this->bonusTimeLeftLabel->setText(QObject::tr("Bônus"));
-    this->scoreLabel->setText(QObject::tr("<b><big>Vidas:</b>"));
+    this->bonusTimeLeftLabel->setText(QObject::tr("O bônus desaparecerá em"));
+    this->scoreLabel->setText(QObject::tr("<b><big>Pontos:</b>"));
     this->lifeLabel->setPixmap(QPixmap(":/images/images/Heart.png"));
     this->rightLayout->addWidget(this->scoreLabel, 0, 0);
     this->rightLayout->addWidget(this->scoreNumber, 0, 1);
@@ -124,11 +124,11 @@ void MainBoard::closeBoard() {
 void MainBoard::pauseOrResumeGame() {
     if (this->board->getGameStatus() == this->board->STARTED) {
         this->board->pauseGame();
-        this->buttonPause->setText(QObject::tr("Pause"));
+        this->buttonPause->setText(QObject::tr("Continuar"));
     } else if (this->board->getGameStatus() == this->board->PAUSED) {
         this->board->setFocus();
         this->board->resumeGame();
-        this->buttonPause->setText(QObject::tr("Play"));
+        this->buttonPause->setText(QObject::tr("Pausa"));
 
     }
 }
