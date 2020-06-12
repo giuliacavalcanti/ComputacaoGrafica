@@ -1,5 +1,5 @@
-from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QFrame
+from PyQt5.QtCore import QObject, Qt
+from PyQt5.QtWidgets import QFrame, QCheckBox
 from PyQt5.QtGui import (QColor, QPainter, QPen, QBrush)
 
 from curve import Curve
@@ -15,22 +15,24 @@ class Canvas(QFrame, QObject):
         self.pointSelected = None
         self.selectedX = None
         self.selectedY = None
-        self.c = None
+        self.is_guide = False
+
 
     def loadCurves(self, curves):
         self.curves = curves
         print(self.curves.keys())
         self.curves = curves
         self.activeCurve = list(self.curves.keys())[0]
-        self.c.selectedCurveName.emit(self.activeCurve)
         self.pointDragged = None
         self.pointSelected = None
         self.selectedX = None
         self.selectedY = None
         self.update()
 
-    def connectEvents(self, c):
-        self.c = c
+    def selectCurve(self, cname):
+        self.activeCurve = cname
+        self.pointSelected = None
+        self.update()
 
     def mousePressEvent(self, event):
         if self.activeCurve is not None:
@@ -49,14 +51,11 @@ class Canvas(QFrame, QObject):
                 self.selectedX = screenX
                 self.selectedY = screenY
                 self.pointSelected = self.curves[self.activeCurve].points_no - 1
-        self.emitSignals()
         self.update()
 
     def mouseMoveEvent(self, event):
         x = event.x() / self.width()
         y = event.y() / self.height()
-        text = "x: {0},  y: {1}".format(x, y)
-        self.c.updateStatusBar.emit(text)
         if self.pointDragged is not None:
             distance = L2Dist(self.selectedX, self.selectedY, x, y)
             if distance > 5 / self.height():
@@ -67,7 +66,6 @@ class Canvas(QFrame, QObject):
                 self.curves[self.activeCurve].move_point_to(i,
                                                             x - sw5,
                                                             y - sh5)
-                self.emitSignals()
                 self.update()
 
     def mouseReleaseEvent(self, event):
@@ -84,52 +82,13 @@ class Canvas(QFrame, QObject):
             for (i, (x, y)) in enumerate(self.curves[self.activeCurve].points):
                 if L2Dist(x * self.width() + 5, y * self.height() + 5,
                           event.x(), event.y()) < 8:
-                    print('SEL')
                     self.pointSelected = i
                     self.selectedX = event.x() / self.width()
                     self.selectedY = event.y() / self.height()
-        self.emitSignals()
         self.update()
 
-    def cyclePoint(self, order):
-        if self.curves[self.activeCurve].points_no > 0:
-            self.pointSelected = (self.pointSelected + order)
-            self.pointSelected %= self.curves[self.activeCurve].points_no
-            self.emitSignals()
-            self.update()
-
-    def gotoPoint(self, pointId):
-        points_no = self.curves[self.activeCurve].points_no
-        if points_no > 0 and pointId < points_no:
-            self.pointSelected = pointId
-            self.emitSignals()
-            self.update()
-
-    def moveXPoint(self, newCoord):
-        i = self.pointSelected
-        self.curves[self.activeCurve].move_point_by(i, newCoord, 0)
-        self.emitSignals()
-        self.update()
-
-    def moveXPointTo(self, newCoord):
-        i = self.pointSelected
-        self.curves[self.activeCurve].move_point_to(i, x=newCoord)
-        self.emitSignals()
-        self.update()
-
-    def moveYPoint(self, newCoord):
-        i = self.pointSelected
-        self.curves[self.activeCurve].move_point_by(i, 0, newCoord)
-        self.emitSignals()
-        self.update()
-
-    def moveYPointTo(self, newCoord):
-        i = self.pointSelected
-        self.curves[self.activeCurve].move_point_to(i, y=newCoord)
-        self.emitSignals()
-        self.update()
-
-    def toggleGuide(self, is_guide):
+    def toggleGuide(self, state):
+        is_guide = True if state == Qt.Checked else False
         self.curves[self.activeCurve].toggle_guide(is_guide)
         self.update()
 
@@ -137,25 +96,11 @@ class Canvas(QFrame, QObject):
         if cname == '':
             cname = "Curve {}".format(len(self.curves) + 1)
         self.curves[cname] = Curve(ctype=ctype)
-        self.c.addCurve.emit(cname)
         self.selectCurve(cname)
-        self.c.selectedCurveName.emit(cname)
         self.update()
-
+    
     def addBCurve(self):
-        self.addCurve('bezier')
-
-    def selectCurve(self, cname):
-        self.activeCurve = cname
-        self.pointSelected = None
-        print(cname)
-        self.update()
-
-    def emitSignals(self):
-        if self.pointSelected is not None:
-            i = self.pointSelected
-            point = self.curves[self.activeCurve].points[i]
-            self.c.updateSelectedPoint.emit(str(point[0]), str(point[1]))
+         self.addCurve('bezier')
 
     def paintEvent(self, event):
         painter = QPainter(self)
