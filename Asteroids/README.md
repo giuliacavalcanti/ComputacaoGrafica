@@ -1,7 +1,7 @@
 # Asteroids
 Essa pasta contém um jogo 3D chamado Asteroids. O jogo foi feito utilizando o OpenGL, especificamente o JOGL, já que o jogo foi feito no JAVA.
 
-- Para construir esse jogo, foram utilizados:
+## Para construir esse jogo, foram utilizados:
  1. Sites:
   - Tutorials Point: https://www.tutorialspoint.com/jogl/index.htm
   - Land of Kain: http://www.land-of-kain.de/docs/jogl/
