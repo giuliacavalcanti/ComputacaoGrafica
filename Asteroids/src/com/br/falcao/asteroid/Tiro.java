@@ -29,9 +29,6 @@ public class Tiro implements IRender {
 		this.ativo = true;
 	}
 	
-	/**
-	 * Renderiza o tiro
-	 */
 	@Override
 	public void render() {
 		if(y >= TIRO_CORTE && ativo) {
