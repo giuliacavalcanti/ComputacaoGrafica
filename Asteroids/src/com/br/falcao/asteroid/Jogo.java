@@ -42,7 +42,7 @@ public class Jogo extends Frame implements KeyListener, GLEventListener {
     public static final int TEXTURA_TAMANHO = 50;
 
     private Base base;
-    private Nave ship;
+    private Nave nave;
     private Alvo[] alvos;
     private ArrayList<Tiro> tiros;
     private Set<Integer> tirosParaRemover;
@@ -132,7 +132,7 @@ public class Jogo extends Frame implements KeyListener, GLEventListener {
         shoot = false;
 
         base = new Base(gl);
-        ship = new Nave(gl);
+        nave = new Nave(gl);
     }
 
 
@@ -264,7 +264,7 @@ public class Jogo extends Frame implements KeyListener, GLEventListener {
     private void gerarNavio(GL2 gl) {
         gl.glPushMatrix();
         gl.glTranslatef(controles.getNaveX(), 0, controles.getNaveZ());
-        ship.render();
+        nave.render();
         gl.glPopMatrix();
     }
 
