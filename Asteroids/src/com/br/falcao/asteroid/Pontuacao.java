@@ -5,7 +5,7 @@ import com.jogamp.opengl.util.gl2.GLUT;
 
 public class Pontuacao implements IRender {
 
-	private long endTime; // same as in the Game
+	private long endTime;
 	
 	private int janelaLargura;
 	private int janelaAltura;
