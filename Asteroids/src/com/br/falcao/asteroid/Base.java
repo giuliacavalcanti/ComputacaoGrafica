@@ -29,10 +29,7 @@ public class Base implements IRender {
 		carregarTexturas();
 		geradorDeCoordenadas();
 	}
-	
-    /**
-     * Loads textures
-     */
+
     private void carregarTexturas() {
         try {
             InputStream stream = getClass().getResourceAsStream("images/floor.jpg");
