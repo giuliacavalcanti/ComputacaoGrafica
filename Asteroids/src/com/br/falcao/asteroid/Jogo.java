@@ -68,13 +68,10 @@ public class Jogo extends Frame implements KeyListener, GLEventListener {
         });
 
         setVisible(true);
-        initJOGL();
+        intiOpengl();
     }
 
-    /**
-     * Initializes JOGL
-     */
-    private void initJOGL() {
+    private void intiOpengl() {
         GLProfile glp = GLProfile.getDefault();
         GLCapabilities caps = new GLCapabilities(glp);
         caps.setDoubleBuffered(true);
