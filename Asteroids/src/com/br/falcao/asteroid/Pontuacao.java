@@ -3,8 +3,6 @@ package com.br.falcao.asteroid;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.util.gl2.GLUT;
 
-//import xyz.koleno.SpaceShooter.IScene;
-
 public class Pontuacao implements IRender {
 
 	private long endTime; // same as in the Game
